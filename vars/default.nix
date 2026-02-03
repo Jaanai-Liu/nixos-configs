@@ -1,8 +1,8 @@
 { lib }:
 {
-  username = "ltrump";
-  userfullname = "L-Trump";
-  useremail = "ltrump@163.com";
+  username = "Zheng";
+  userfullname = "Jaanai-Liu";
+  useremail = "liujaanai@gmail.com";
   networking = import ./networking.nix { inherit lib; };
   nixpkgs-config = import ./nixpkgs-config.nix { inherit lib; };
   containers = import ./containers.nix { inherit lib; };
@@ -22,13 +22,13 @@
   #    2. Never leave the device and never sent over the network.
   # 2. Or just use hardware security keys like Yubikey/CanoKey.
   sshAuthorizedKeys = [
-    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIELKxC3ntw44oEB+HnFwrDQOudiVmf9XnO3W+P2HA+1N ltrump@mbgt"
-    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIL6Ic0uPufIiXRVYx/RN1lJIDHCreWEDALDifiLbgTkH ltrump@rog"
-    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIB3HTnnSqW08xkgIEKHyRyIB9H2qEkRAnbe/pOlN3uoT ltrump@n100"
-    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIJvcGCqT9GbTjxRHUFL8wp6nNXKIvtiFGhZD05yrFSb ltrump@fallback"
+    #"ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIELKxC3ntw44oEB+HnFwrDQOudiVmf9XnO3W+P2HA+1N ltrump@mbgt"
+    #"ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIL6Ic0uPufIiXRVYx/RN1lJIDHCreWEDALDifiLbgTkH ltrump@rog"
+    #"ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIB3HTnnSqW08xkgIEKHyRyIB9H2qEkRAnbe/pOlN3uoT ltrump@n100"
+    #"ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIJvcGCqT9GbTjxRHUFL8wp6nNXKIvtiFGhZD05yrFSb ltrump@fallback"
     # Canokeys
-    "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC66ULVKuy/SWYAgPKq9liIhvmQLNbSaJS1oaxSLoLx+pw+pvTd9z/bf650mvLcH5el/4eqhzW9kVoB3kBmNWg2aZZthLXAnfqFRucY9rDbDN98XOy0jw39hRC7m1luRdES1QUTzWtXAoi2JgycE9dy+HsjqN1oyQHb6NfmEArZfs+0/RgAyl5ayh++XMalx6KSBYsq+tDLoVs4PI6XJFR7JMqwgQzo3spSbKVQ5rx0hlxH9kf0IfJCS2GMT//JxSkix4XYIymcuMXUOEFarjlg1O7oRmd0BHIRmGfCVIg8IpUTb3rPiWY6Ua8Hbeia+f8Noagt3/q+aOjNl7co+bmdXpx2udLcTUzAq18DxO81yqinA20LYe9IXsE1pknhUTA4UaJUTdFJDrLcAbLjMSwhRNm37RmAAWU7ugSKlCNWPAmejTDzNeeNnfhWK+3TERw+QgVEQJMbFoiEs+oN6RyVfy0uDbLDEuFKnPIaYCLSOD+3zSQ4XLytUkGc/Fm+Eri8eVyfDkMQnpv7YLG13+SgtcuREE/yRlb4gFNLxkWKKhv7hGmvfrgYyzfrqHw7GViVqvhmK1zuXGkni9ppyw7dguAuEmYSMUrfkSqJtH+/Ti5HM0BE36b11c9+WiogqYfHXI52eKjo+/9DKzl5tVIgN/aVFDEFOvs/3MZ8xKHFnQ== ltrump@gpg"
-    "no-touch-required sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIHoTg4W/O+6l0fXHtL4IB5KazxpvWzRjZjueyoXd2lPkAAAADHNzaDpjYW5va2V5MQ== ltrump@canokey1sk"
-    "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIK8bliYIlfotqUnT0ktB8QRBuiZcV6XceUpsUrPuh+uJAAAAC3NzaDpjYW5va2V5 ltrump@canokey2sk"
+    # "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC66ULVKuy/SWYAgPKq9liIhvmQLNbSaJS1oaxSLoLx+pw+pvTd9z/bf650mvLcH5el/4eqhzW9kVoB3kBmNWg2aZZthLXAnfqFRucY9rDbDN98XOy0jw39hRC7m1luRdES1QUTzWtXAoi2JgycE9dy+HsjqN1oyQHb6NfmEArZfs+0/RgAyl5ayh++XMalx6KSBYsq+tDLoVs4PI6XJFR7JMqwgQzo3spSbKVQ5rx0hlxH9kf0IfJCS2GMT//JxSkix4XYIymcuMXUOEFarjlg1O7oRmd0BHIRmGfCVIg8IpUTb3rPiWY6Ua8Hbeia+f8Noagt3/q+aOjNl7co+bmdXpx2udLcTUzAq18DxO81yqinA20LYe9IXsE1pknhUTA4UaJUTdFJDrLcAbLjMSwhRNm37RmAAWU7ugSKlCNWPAmejTDzNeeNnfhWK+3TERw+QgVEQJMbFoiEs+oN6RyVfy0uDbLDEuFKnPIaYCLSOD+3zSQ4XLytUkGc/Fm+Eri8eVyfDkMQnpv7YLG13+SgtcuREE/yRlb4gFNLxkWKKhv7hGmvfrgYyzfrqHw7GViVqvhmK1zuXGkni9ppyw7dguAuEmYSMUrfkSqJtH+/Ti5HM0BE36b11c9+WiogqYfHXI52eKjo+/9DKzl5tVIgN/aVFDEFOvs/3MZ8xKHFnQ== ltrump@gpg"
+    # "no-touch-required sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIHoTg4W/O+6l0fXHtL4IB5KazxpvWzRjZjueyoXd2lPkAAAADHNzaDpjYW5va2V5MQ== ltrump@canokey1sk"
+    # "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIK8bliYIlfotqUnT0ktB8QRBuiZcV6XceUpsUrPuh+uJAAAAC3NzaDpjYW5va2V5 ltrump@canokey2sk"
   ];
 }

@@ -15,12 +15,16 @@ in
 {
   imports = [
     # Hardware
-    nixos-hardware.nixosModules.common-cpu-intel
+    # nixos-hardware.nixosModules.common-cpu-intel
     nixos-hardware.nixosModules.common-pc-laptop
     nixos-hardware.nixosModules.common-pc-ssd
   ];
 
   # Use the systemd-boot EFI boot loader.
+  # Bootloader.
+  boot.loader.grub.enable = true;
+  boot.loader.grub.device = "/dev/sda";
+  boot.loader.grub.useOSProber = true;
 
   networking.hostName = "matebook-gt14"; # Define your hostname.
   networking.domain = "localdomain";
@@ -45,12 +49,12 @@ in
   hardware.graphics.enable = true;
   hardware.graphics.enable32Bit = true;
   hardware.graphics.extraPackages = with pkgs; [
-    intel-compute-runtime
-    intel-media-driver
-    vpl-gpu-rt
+    # intel-compute-runtime
+    # intel-media-driver
+    # vpl-gpu-rt
   ];
 
-  hardware.intelgpu.driver = "xe";
+  # hardware.intelgpu.driver = "xe";
 
   hardware.ipu6.enable = false;
   hardware.ipu6.platform = "ipu6epmtl";
@@ -60,9 +64,9 @@ in
   #   tod.driver = pkgs.libfprint-2-tod1-goodix-550a;
   # };
 
-  services.udev.extraRules = ''
-    ACTION=="add", SUBSYSTEM=="backlight", KERNEL=="intel_backlight", MODE="0666", RUN+="${pkgs.coreutils}/bin/chmod a+w /sys/class/backlight/%k/brightness"
-  '';
+  # services.udev.extraRules = ''
+    # ACTION=="add", SUBSYSTEM=="backlight", KERNEL=="intel_backlight", MODE="0666", RUN+="${pkgs.coreutils}/bin/chmod a+w /sys/class/backlight/%k/brightness"
+  # '';
   services.udev.extraHwdb = ''
     # Huawei MACH-WX9
     evdev:atkbd:dmi:bvn*:bvr*:svnhuawei*:pnmach-wx9:pvr*

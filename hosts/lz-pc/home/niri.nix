@@ -12,7 +12,7 @@
   };
   myhome.desktop.niri.settings = {
     output = [
-      #{
+      {
       #  _args = [ "Lenovo Group Limited LEN Y27q-20 0x01010101" ];
       scale = 1.0;
       #  position = {
@@ -21,7 +21,7 @@
       #      y = 0;
       #    };
       #  };
-      #}
+      }
     ];
     input = {
       touch = {

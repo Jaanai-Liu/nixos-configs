@@ -938,10 +938,10 @@
     "mysecrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1769268396,
-        "narHash": "sha256-u9CT2Y0gY2IcqBMbJad1NDhxD65zpOJvRnABQgQ+xBI=",
+        "lastModified": 1770125451,
+        "narHash": "sha256-4ZfYr7DnZPjP/0a8cDEHZPTTT0lVNmknZIqdPj7ORfU=",
         "ref": "refs/heads/main",
-        "rev": "219e86910008828994baf717c656e6f423edabc3",
+        "rev": "5b4e5974f8882dae9e1730dc7f16a944a1e95145",
         "shallow": true,
         "type": "git",
         "url": "ssh://git@github.com/Jaanai-Liu/nix-secrets.git"
@@ -1297,11 +1297,11 @@
         "nixpkgs": "nixpkgs_3"
       },
       "locked": {
-        "lastModified": 1770120029,
-        "narHash": "sha256-3UkghT5vQVBslKiZ+wIpgPze8eyMha8mT/T7IIRuRdc=",
+        "lastModified": 1770125189,
+        "narHash": "sha256-boDXS39FRXDhrQZoK9CvsogApXnLM8UR1qvevawKN/g=",
         "owner": "nix-community",
         "repo": "NUR",
-        "rev": "70877f9a9aa4f7034ca74a0c42b8c3268f943636",
+        "rev": "6a5c8df1342ff2ba9f9c1a9a3ebd99393faafb54",
         "type": "github"
       },
       "original": {
