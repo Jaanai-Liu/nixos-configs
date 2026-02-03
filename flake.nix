@@ -60,7 +60,8 @@
     };
     # My fonts
     myfonts = {
-      url = "github:L-Trump/nixos-fonts?shallow=1";
+      # url = "github:L-Trump/nixos-fonts?shallow=1";
+      url = "github:Jaanai-Liu/nixos-fonts?shallow=1";
       flake = false;
     };
     # Impermanence

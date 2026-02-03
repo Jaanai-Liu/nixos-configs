@@ -922,15 +922,15 @@
     "myfonts": {
       "flake": false,
       "locked": {
-        "lastModified": 1728313261,
-        "narHash": "sha256-soWXAsTkTdjw+a2VpqtWeLvFt4qudsTqy41iy1mok30=",
-        "owner": "L-Trump",
+        "lastModified": 1770127396,
+        "narHash": "sha256-CmNmJ62DoQtAqg4bpLrydlQiA1HGtu7/6S6MECOzw4I=",
+        "owner": "Jaanai-Liu",
         "repo": "nixos-fonts",
-        "rev": "9d42259c6cf12154d0c1f7e4f9f1cea04051c8b3",
+        "rev": "5fc441e03b5787c7c9a36785eb9709ed54159432",
         "type": "github"
       },
       "original": {
-        "owner": "L-Trump",
+        "owner": "Jaanai-Liu",
         "repo": "nixos-fonts",
         "type": "github"
       }
