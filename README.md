@@ -1,141 +1,165 @@
-<h2 align="center">:snowflake: LTrump's Nix Config :snowflake:</h2>
+# 🚀 NixOS Deployment Guide for lz-pc
 
-<p align="center">
-  <img src="https://raw.githubusercontent.com/catppuccin/catppuccin/main/assets/palette/macchiato.png" width="400" />
-</p>
+本指南用于在全新的 NixOS 环境中（如 VMware 虚拟机）快速引导并部署 `lz-pc` 配置。
 
-> This configuration and READMEs in this repo borrows heavily from [ryan4yin/nix-config](https://github.com/ryan4yin/nix-config) and his 
-> [cookbook](https://github.com/ryan4yin/nixos-and-flakes-book). Many thanks to his spirit of sharing!
+## 前置准备 (Pre-flight Check)
+* **硬盘空间**：虚拟机硬盘建议 **>100GB**（构建 NixOS 需要大量临时空间，64GB 可能会导致构建失败）。
+* **网络环境**：建议宿主机开启代理，或确保能正常访问 GitHub。
 
-This repository is home to the nix code that builds my systems:
-Currently, this repository contains the nix code that builds:
+---
 
-1. NixOS Desktops: NixOS with home-manager, hyprland, agenix, etc.
-2. NixOS Servers: Cloud VPS, Proxmox VE, MicroVMs (Home NUC), etc.
+## 第一阶段：环境自举 (Bootstrap)
 
-See [./hosts](./hosts) for details of each host.
+在全新安装的系统中，我们需要先手动开启 Flakes 功能、安装 Git/Vim，并配置清华大学镜像源以加速下载。
 
-## Why NixOS & Flakes?
+### 1. 编辑基础配置
+使用系统自带的编辑器修改配置：
 
-Nix allows for easy-to-manage, collaborative, reproducible deployments. This
-means that once something is setup and configured once, it works (almost)
-forever. If someone else shares their configuration, anyone else can just use it
-(if you really understand what you're copying/refering now).
+```bash
+sudo nano /etc/nixos/configuration.nix
 
-As for Flakes, refer to
-[Introduction to Flakes - NixOS & Nix Flakes Book](https://nixos-and-flakes.thiscute.world/nixos-with-flakes/introduction-to-flakes)
+```
 
-## Components
+### 2. 写入引导配置
 
-Note that I have not used or maintained my Xorg environment (i3wm) for several
-months. It is now deprecated and will no longer be showcased in the README.
-Below are some of the components used for my daily machine.
+在配置文件中找到适当位置（如 `environment.systemPackages` 附近），添加或修改以下内容。这将启用 Flakes、安装基础工具并配置国内加速缓存。
 
-|                             | NixOS(Wayland)                                                 |
-| --------------------------- | :------------------------------------------------------------- |
-| **Window Manager**          | [Niri][Niri]                                           |
-| **Terminal Emulator**       | [Kitty][Kitty] + [Zellij][Zellij]                              |
-| **Bar**                     | [Waybar][Waybar]                                               |
-| **Application Launcher**    | [rofi-wayland][rofi-wayland]                                   |
-| **Notification Daemon**     | [Dunst][Dunst]                                                 |
-| **Locker**                  | [swaylock-effect][swaylock-effect]                             |
-| **network management tool** | [NetworkManager][NetworkManager] + systemd-networkd            |
-| **Input method framework**  | [Fcitx5][Fcitx5] with [FlyPY][FlyPY]                           |
-| **System resource monitor** | [Bottom][Bottom]                                               |
-| **File Manager**            | [nnn][nnn] + [thunar][thunar]                                  |
-| **Shell**                   | [FishShell][fish] + [Starship][Starship]                       |
-| **Music Player**            | [LX Music][lx-music-desktop]                                   |
-| **Media Player**            | [mpv][mpv], [wiliwili][wiliwili]                               |
-| **Text Editor**             | [Helix][Helix] + [Neovim][Neovim] ([ayamir/nvimdots][nvimdots])|
-| **Fonts**                   | [Nerd fonts][Nerd fonts]                                       |
-| **Image Viewer**            | [vimiv][vimiv], [imv][imv]                                     |
-| **Screenshot Software**     | [grimblast][grimblast] + [Snipaste][Snipaste]                  |
-| **Screen Recording**        | [OBS][OBS]                                                     |
-| **Filesystem**              | [Btrfs][Btrfs] subvolumes, clean '/' every boot for impermance |
+```nix
+{ config, pkgs, ... }:
 
-## Some configurations in this repo may helpful
+{
+  # ... 原有配置 ...
 
-- DarkMode - [darkman](./home/gui/appearance/darkman.nix) + [dconf](./home/gui/appearance/dconf.nix) + [xsettingsd](./home/gui/appearance/xsettingsd.nix)
-- [WeMeet (worked with wayland)](./home/gui/daily/wemeet/)
-- [Fcitx5 (with flypy)](/home/gui/fcitx5/)
-- Terminal File Picker - [NNN](./home/gui/nnn/) + [xdg-desktop-portal-termfilechooser](./home/gui/xdg-portals/)
-- [Mail Workflow](./home/tui/mail/) - [aerc (reader)](./home/tui/mail/aerc/) + [offlineimap (imap sync)](./home/tui/mail/offlineimap/) + [imapnotify (monitor)](./home/tui/mail/imapnotify/)
-- [AnimeBoot (GRUB + plymouth)](./modules/nixos/desktop/animeboot/)
-- [SJTU VPN](./modules/nixos/desktop/vpn/)
-- [SDWan (easytier + tailscale)](./modules/nixos/server/sdwan.nix)
+  # 1. 开启 Flakes 和新版 Nix 命令行工具
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
-## Hyprland + Neovim + Helix
+  # 2. 安装基础软件
+  environment.systemPackages = with pkgs; [
+    git
+    vim
+    wget
+    curl
+  ];
 
-![](./_img/hyprland-full-view.webp)
+  # 3. 配置清华大学 Binary Cache (极大加速软件下载)
+  nix.settings.substituters = [ "[https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store](https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store)" ];
+  nix.settings.trusted-public-keys = [ "mirrors.tuna.tsinghua.edu.cn-1:ly95/J/qf50BIncRiK6i13Wz+89I4VjGEN0S8sA+vJc=" ];
 
-![](./_img/neovim-view.webp)
+  # ... 原有配置 ...
+}
 
-![](./_img/helix-zellij-view.webp)
+```
 
-## Neovim
+> **注意**：编辑完成后，按 `Ctrl+O` 保存，`Ctrl+X` 退出。
 
-See [./home/tui/editors/neovim/](./home/tui/editors/neovim/) for details.
+### 3. 应用更改
 
-## Helix
+运行旧版构建命令使上述配置生效：
 
-See [./home/core/editors.nix](./home/core/editors.nix) for details.
+```bash
+sudo nixos-rebuild switch
 
-## Secrets Management
+```
 
-See [./secrets](./secrets) for details.
+---
 
-## Folder Structure
+## 第二阶段：配置 GitHub 访问
 
-- `modules/` - common NixOS modules
-  - `base/` - common modules
-  - `nixos/` - NixOS modules
-    - `basic/` - modules for all hosts
-    - `desktop/` - modules for desktop hosts
-    - `server/` - optional modules
-  - `options.nix` - my custom NixOS module options
-- `home` - common Home-Manager modules
-  - `core/` - hm modules for all hosts
-  - `tui/` - tui-related hm modules, mainly for remote development
-  - `gui/` - hm modules for desktop hosts
-    - `daily/` - daily-use applications
-  - `options.nix` - my custom hm module options
-- `hosts/<name>/` and `hosts/microvms/<name>/` - hosts-specific modules
-  - `modules/` - NixOS modules
-  - `home/` - Home-Manager modules
-- `packages/` - custom packages
-- `overlays/` - nixpkgs overlays
-- `vars/` - my variables (user info, networks, etc)
-- `outputs/` - flake outputs defenitions. see [./outputs](./outputs) for details
-- `secrets/` - secrets managed by agenix. see [./secrets](./secrets) for details
-- `flake.nix` - flake entry
+为了拉取您的私有配置或推送代码，需要配置 SSH 密钥。
 
-## References
+### 1. 设置 Git 身份
 
-[Niri]: https://github.com/YaLTeR/niri
-[Zellij]: https://github.com/zellij-org/zellij
-[Kitty]: https://github.com/kovidgoyal/kitty
-[Waybar]: https://github.com/Alexays/Waybar
-[rofi-wayland]: https://github.com/lbonn/rofi
-[Dunst]: https://github.com/dunst-project/dunst
-[swaylock-effect]: https://github.com/mortie/swaylock-effects
-[NetworkManager]: https://wiki.gnome.org/Projects/NetworkManager
-[Fcitx5]: https://github.com/fcitx/fcitx5
-[nnn]: https://github.com/jarun/nnn
-[thunar]: https://gitlab.xfce.org/xfce/thunar
-[fish]: https://github.com/fish-shell/fish-shell
-[Starship]: https://github.com/starship/starship
-[lx-music-desktop]: https://github.com/lyswhut/lx-music-desktop
-[mpv]: https://github.com/mpv-player/mpv
-[wiliwili]: https://github.com/xfangfang/wiliwili
-[Helix]: https://github.com/helix-editor/helix
-[Neovim]: https://github.com/neovim/neovim
-[nvimdots]: https://github.com/ayamir/nvimdots/
-[Nerd fonts]: https://github.com/ryanoasis/nerd-fonts
-[vimiv]: https://github.com/karlch/vimiv
-[imv]: https://sr.ht/~exec64/imv/
-[grimblast]: https://github.com/hyprwm/contrib/tree/main/grimblast
-[OBS]: https://obsproject.com
-[Btrfs]: https://btrfs.readthedocs.io
-[Bottom]: https://github.com/ClementTsang/bottom
-[Snipaste]: https://www.snipaste.com/
-[FlyPY]: https://www.flypy.com/
+```bash
+git config --global user.name "YourGithubName"
+git config --global user.email "your@email.com"
+
+```
+
+### 2. 生成 SSH 密钥
+
+```bash
+# 一路回车即可，无需设置密码
+ssh-keygen -t ed25519 -C "your@email.com"
+
+```
+
+### 3. 添加密钥到 GitHub
+
+读取公钥内容：
+
+```bash
+cat ~/.ssh/id_ed25519.pub
+
+```
+
+* 复制输出的内容（以 `ssh-ed25519` 开头）。
+* 在浏览器打开 [GitHub SSH Keys 设置页面](https://github.com/settings/ssh)。
+* 点击 **New SSH key**，粘贴内容并保存。
+
+### 4. 测试连接
+
+```bash
+ssh -T git@github.com
+# 看到 "Hi xxx! You've successfully authenticated..." 即表示成功
+
+```
+
+---
+
+## 第三阶段：部署系统 (Deploy)
+
+### 1. 拉取配置仓库
+
+```bash
+cd ~
+git clone git@github.com:YourGithubName/nixos-configs.git
+cd nixos-configs
+
+```
+
+### 2. 检查主机配置
+
+确保 `hosts/lz-pc/` 目录存在，且 `outputs/x86_64-linux/hosts/lz-pc.nix` 配置正确。
+
+### 3. 构建并切换系统
+
+这是最关键的一步。系统将根据 Flake 配置下载所有依赖并重构系统。
+
+* `--flake .#lz-pc`: 使用当前目录下的 flake 文件，构建名为 `lz-pc` 的主机。
+* `--show-trace`: 如果出错，显示详细的错误堆栈。
+
+```bash
+sudo nixos-rebuild switch --flake .#lz-pc --show-trace
+
+```
+
+> **提示**：第一次构建时间较长，请耐心等待。如果因为网络原因下载 GitHub 源码失败，请检查网络代理。
+
+---
+
+## 日常维护与更新 (Maintenance)
+
+部署完成后，日常使用以下命令进行维护。
+
+### 仅修改配置文件 (不升级软件版本)
+
+当您修改了 `home/my-apps.nix` 添加新软件，或修改了桌面配置时：
+
+```bash
+sudo nixos-rebuild switch --flake .#lz-pc
+
+```
+
+### 彻底系统更新 (升级内核与软件版本)
+
+当您想要获取 NixOS 的最新软件版本时（这将更新 `flake.lock` 文件）：
+
+```bash
+# 1. 更新锁文件 (Update flake.lock)
+# 由于配置了清华源，后续构建会走国内镜像，但此步仍需访问 GitHub 获取版本号
+nix flake update
+
+# 2. 构建新系统
+sudo nixos-rebuild switch --flake .#lz-pc
+
+```
